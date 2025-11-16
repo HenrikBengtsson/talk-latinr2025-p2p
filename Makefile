@@ -11,7 +11,7 @@ publish:
 	quarto publish
 
 preview:
-	quarto preview
+	quarto preview --port 4001 &
 
 spelling:
 	Rscript -e "spelling::spell_check_files('index.qmd', ignore=readLines('WORDLIST', warn=FALSE))"
