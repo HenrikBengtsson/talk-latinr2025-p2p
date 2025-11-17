@@ -153,7 +153,7 @@ y <- slow_sum(1:10)
 :::
 
 
-## Future ... what?
+## Futures gives more control on R evaluates code
 
 ### R code
 
@@ -214,7 +214,7 @@ y <- value(f)
 
 
 
-## Future ... what?
+## R evaluates code sequentially
 
 ### R code
 
@@ -299,7 +299,7 @@ y3 <- slow_sum(21:30)          # 1 minute
 
 
 
-## Future ... what?
+## R with futures evaluates code parallelly
 
 ::: { .code-normal  }
 ```{.r}
@@ -426,8 +426,8 @@ ys <- future_lapply(xs, slow_sum)             # {future.apply}
 
 ```{r}
 #| code-line-numbers: "1|"
-ys <- map(xs, slow_sum)                       # {purrr}
-ys <- future_map(xs, slow_sum)                # {furrr}
+ys <- xs |> map(slow_sum)                     # {purrr}
+ys <- xs |> future_map(slow_sum)              # {furrr}
 ```
 
 . . .
@@ -547,7 +547,7 @@ Alice sets up P2P cluster and gives 'bob' and 'carol' access:
 [alice]> future.p2p::host_cluster("alice/friends", users=c("bob", "carol"))
 ```
 
-This is basically setting up a shared message board.
+This is setting up a shared message board.
 
 . . .
 
@@ -557,7 +557,7 @@ Q. What happens if Bob tries to use the P2P cluster?
 ```{r}
 #| code-line-numbers: false
 [bob]> plan(future.p2p::cluster, cluster = "alice/friends")
-[bob]> y <- future_lapply(xs, slow_sum)
+[bob]> y <- xs |> future_map(slow_sum)
 ```
 
 . . .
@@ -591,7 +591,7 @@ Q. What happens if Bob tries to use the P2P cluster?
 ```{r}
 #| code-line-numbers: false
 [bob]> plan(future.p2p::cluster, cluster = "alice/friends")
-[bob]> y <- future_lapply(xs, slow_sum)
+[bob]> y <- xs |> future_map(slow_sum)
 ```
 
 <br>
@@ -600,44 +600,30 @@ Q. What happens if Bob tries to use the P2P cluster?
 
 
 
-## You can set it up from the terminal
-
-Setting up a P2P cluster:
+## Add more P2P workers at any time
 
 ```{r}
 #| code-line-numbers: false
-{alice}$ Rscript -e future.p2p::host_cluster --cluster=alice/friends \
-         --users=bob,carol
+[alice]> future.p2p::worker("alice/friends")
+[alice]> future.p2p::worker("alice/friends")
 ```
-
-. . .
-
-Starting P2P workers:
-
+<div style="height:1ex;"></div>
 ```{r}
 #| code-line-numbers: false
-{alice}$ Rscript -e future.p2p::worker --cluster=alice/friends &
-{alice}$ Rscript -e future.p2p::worker --cluster=alice/friends &
+[ bob ]> future.p2p::worker("alice/friends")
 ```
-<span style="height:10px"/>
+<div style="height:1ex;"></div>
 ```{r}
 #| code-line-numbers: false
-{ bob }$ Rscript -e future.p2p::worker --cluster=alice/friends &
+[carol]> future.p2p::worker("alice/friends")
+[carol]> future.p2p::worker("alice/friends")
+[carol]> future.p2p::worker("alice/friends")
 ```
-<span style="height:10px"/>
-```{r}
-#| code-line-numbers: false
-{carol}$ Rscript -e future.p2p::worker --cluster=alice/friends &
-{carol}$ Rscript -e future.p2p::worker --cluster=alice/friends &
-{carol}$ Rscript -e future.p2p::worker --cluster=alice/friends &
-```
-
-. . .
 
 <span style="height:10px"/>
+<span style="height:10px"/>
 
-### => A shared P2P cluster with 6 workers. More can be added at any time!
-
+### => A shared P2P cluster with 6 workers.
 
 
 
@@ -648,21 +634,22 @@ Pros and cons
 </center>
 
 
-## High latency but also high throughput
-
-* High latency:
-
-  - round-trip takes time, because p2p file transfers take time
-  
-  - Example: `1+2` takes 2-10 seconds to send, evaluate, and return
-
-  - Just a prototype, so this will be improved
+## High throughput, but with high latency
 
 * High throughput:
 
   - any number of users and workers can join
   
   - a public P2P cluster could have thousands of P2P workers
+
+* High latency:
+
+  - round-trip takes time, because p2p file transfers take time
+  
+  - Example: `1+2` takes 1-10 seconds to send, evaluate, and return
+
+  - **This will improve!**
+
 
 
 
@@ -707,8 +694,6 @@ The Future is bright<br>
 ### On the horizon {.fragment}
 
 ::: {.incremental}
-
- * Custom random number generators (RNG) [together with Ralf Stubner]
 
  * Resource specifications, e.g.
    - avoid memory overuse, e.g. `memory=2*GiB`
