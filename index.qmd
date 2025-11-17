@@ -415,8 +415,8 @@ Parallel alternatives to traditional, sequential functions:
 
 ```{r}
 #| code-line-numbers: "1|"
-ys <- lapply(xs, slow_sum)                    # base R
-ys <- future_lapply(xs, slow_sum)             # {future.apply}
+ys <- lapply(xs, slow_sum)             # base R
+ys <- future_lapply(xs, slow_sum)      # {future.apply}
 ```
 <span style="height:10px"/>
 <br>
@@ -426,8 +426,8 @@ ys <- future_lapply(xs, slow_sum)             # {future.apply}
 
 ```{r}
 #| code-line-numbers: "1|"
-ys <- xs |> map(slow_sum)                     # {purrr}
-ys <- xs |> future_map(slow_sum)              # {furrr}
+ys <- xs |> map(slow_sum)              # {purrr}
+ys <- xs |> future_map(slow_sum)       # {furrr}
 ```
 
 . . .
@@ -485,12 +485,12 @@ Peer-to-Peer Computing<br>
 
 <div style="height: 0.5ex"></div>
 
-::: {.column width="70%" font="150%"}
+::: {.column width="73%" font="150%"}
 ```{r}
 #| code-line-numbers: false
 library(future)
 
-plan(future.p2p::cluster, cluster = "alice/friends")
+plan(future.p2p::cluster, cluster="alice/friends")
 
 ys <- xs |> furrr::future_map(slow_sum)
 ```
@@ -605,7 +605,8 @@ Alice sets up P2P cluster and gives 'bob' and 'carol' access:
 
 ```{r}
 #| code-line-numbers: false
-[alice]> future.p2p::host_cluster("alice/friends", users=c("bob", "carol"))
+[alice]> future.p2p::host_cluster("alice/friends",
+                                  users = c("bob", "carol"))
 ```
 
 This is setting up a shared message board.
