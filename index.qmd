@@ -748,7 +748,7 @@ The Future is bright<br>
 ## May the future be with you!
 
 * It’s easy to get started - just try it
-* Support: <https://github.com/HenrikBengtsson/future/discussions>
+* Support: <https://github.com/orgs/futureverse/discussions>
 * Tutorials: <https://www.futureverse.org/tutorials.html>
 * Blog posts: <https://www.futureverse.org/blog.html>
 * I love feedback, ideas, and bug reports 💜
