@@ -9,6 +9,7 @@ format:
     logo: images/future-logo.png
     footer: <https://future.p2p.futureverse.org>
     slide-number: true
+    code-line-numbers: false
     margin: 0.05
     pointer:
       pointerSize: 32

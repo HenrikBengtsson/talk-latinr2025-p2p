@@ -28,9 +28,27 @@ revealjs-plugins:
 execute:
   eval: false
   echo: true
----
 
-<h1>Futureverse P2P:<br>Peer-to-Peer Parallelization in R</h1>
+latinr:
+  talk-number: 56
+  video-title: Peer-to-Peer Parallelization in R (Henrik Bengtsson)
+  video-mp4: 56_future_p2p.mp4
+---
+<!--
+Title: future.p2p: Peer-to-Peer Compute Clusters in R
+Author: Henrik Bengtsson
+
+Parallel processing can speed up computationally intensive tasks. As the size of these tasks grows --- and as access to more CPU cores increases -- so does the demand for parallel-processing solutions. In R, the futureverse ecosystem has, over the past decade, become a popular go-to for parallel and distributed computing. Its simplicity and strict, minimalistic application programming interface (API) are key reasons for its success. Many R packages use futureverse internally for parallelization, making it extremely easy for end-users to scale up their analyses without needing to understand the technical details of running code in parallel.
+
+With futureverse, users have many options for where their parallel R code runs. Anyone can parallelize on their personal notebook or any machine they have access to. Users with accounts on multiple machines can easily parallelize across them -- as long as they have SSH access -- e.g., office desktops, remote servers, or cloud instances. Those with access to high-performance computing (HPC) clusters can run R code in parallel via job schedulers like Slurm and SGE.
+
+But not all users have access to powerful machines or computing environments. Some lose access to high-end compute resources when they finish school or leave a job. For them, running certain analyses becomes impractical -- code might take days or even weeks to complete. The 'future.p2p' package aims to solve this problem. It lets users come together and build a global, peer-to-peer (P2P) compute cluster. This way, they can share and harness compute power among one another. Setup is minimal and requires only basic knowledge of SSH and R.
+
+Availability: https://future.p2p.futureverse.org/
+-->
+
+
+<h1>future.p2p: Peer-to-Peer<br>Compute Clusters in R</h1>
 
 <h2>_- Share compute among friends across the world_</h2>
 
@@ -47,112 +65,351 @@ R Foundation, R Consortium<br>
 
 <br/>
 
-#### useR! 2025, Durham, NC, USA (2025-08-10)
+#### LatinR 2025 (2025-12-01/2025-12-05)
+
+
+## Future ... what?
+
+### When you write
+
+::: { .code-medium  }
+```{.r}
+a <- 1 + 2
+```
+:::
+
+<br>
+
+::: { .fragment }
+
+### R does
+
+::: { style="margin: 1ex" }
+:::
+
+![](images/chatgpt_20251116-box-1-open-code.png){ width="250" style="vertical-align: middle" }
+<span class="fragment">
+  <span class="right-large">➔</span>
+  ![](images/gemini_20251116-r-box-square.png){ width="150" style="vertical-align: middle" }
+</span>
+<span class="fragment">
+  <span class="right-large">➔</span>
+  ![](images/chatgpt_20251116-box-1-open-result_3.png){ width="250" style="vertical-align: middle" }
+</span>
+<span class="fragment">
+  <span class="right-large">➔</span>
+  <span class="code-large">a &leftarrow; 3</span>
+</span>
+
+:::
+
+
+## Future ... what?
+
+### When you write
+
+::: { .code-medium  }
+```{.r}
+y <- slow_sum(1:10)
+```
+:::
+
+<br>
+
+::: { .fragment }
+
+### R does
+
+::: { style="display: flex; transform: scale(0.75); transform-origin: top left; margin-bottom: -5ex;" }
+
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/chatgpt_20251116-box-2-open-code-data_1-10.png){ width="250" style="vertical-align: middle" }
+::::
+:::: { }
+<span class="right-large">➔</span>
+::::
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/gemini_20251116-r-box-square.png){ width="150" style="vertical-align: middle" }<br>
+**1 minute**
+::::
+
+::::: { .fragment style="display: flex;" }
+
+:::: { }
+<span class="right-large">➔</span>
+::::
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" style="vertical-align: middle" }
+::::
+:::: { }
+<span class="right-large">➔</span>
+<span class="code-large">y &leftarrow; 55</span>
+::::
+
+:::::
+
+:::
+
+:::
+
+
+## Future ... what?
+
+### R code
+
+::: { .code-normal  }
+```{.r}
+y <- slow_sum(1:10)
+```
+:::
+
+
+::::: { .fragment }
+
+### Same R code using futures
+
+::: { .code-normal }
+```{.r}
+f <- future( slow_sum(1:10) )
+y <- value(f)
+```
+:::
+
+:::::
+
+::::: { .fragment }
+
+### What R does
+
+::: { style="display: flex; transform: scale(0.75); transform-origin: top left; margin-bottom: -5ex;" }
+
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/chatgpt_20251116-box-2-open-code-data_1-10.png){ width="250" style="vertical-align: middle" }<br>
+**future**
+::::
+:::: { }
+<span class="right-large">➔</span>
+::::
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/gemini_20251116-r-box-square.png){ width="150" style="vertical-align: middle" }<br>
+**1 minute**
+::::
+:::: { }
+<span class="right-large">➔</span>
+::::
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" style="vertical-align: middle" }<br>
+**value**
+::::
+:::: { }
+<span class="right-large">➔</span>
+<span class="code-large">y &leftarrow; 55</span>
+::::
+
+:::
+
+:::::
+
+
 
 
 
 ## Future ... what?
 
-:::: {.columns}
+### R code
 
-::: {.column width="35%" font="150%" .fragment}
-An R assignment:
-```{r}
-#| code-line-numbers: false
-a <- 1 + 2
+::: { .code-normal  }
+```{.r}
+y1 <- slow_sum( 1:10)          # 1 minute
+y2 <- slow_sum(11:20)          # 1 minute
+y3 <- slow_sum(21:30)          # 1 minute
 ```
 :::
 
-::: {.column width="10%"}
-:::
+### What R does
 
-::: {.column width="45%" font="150%" .fragment}
-A future-value assignment:
-```{r}
-#| code-line-numbers: false
-f <- future({ 1 + 2 })
-a <- value(f)
-```
-:::
+::: { style="width: 200%;" }
 
-<br>
+:::: { style="display: flex; transform: scale(0.5); transform-origin: top left; margin-bottom: -8ex; width: 200%;" .fragment }
 
-::: {.column width="35%" font="150%" .fragment}
-```{r}
-#| code-line-numbers: false
-x <- 1:10
-b <- slow_sum(x)
-```
-:::
+::::: { }
+![](images/chatgpt_20251116-box-2-open-code-data_1-10.png){ width="250" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+:::::
 
-::: {.column width="10%"}
-:::
+::::: { style="text-align: center; font-size: 150%;" }
+![](images/gemini_20251116-r-box-square.png){ width="150" style="vertical-align: middle" }<br>
+**1 minute**
+:::::
 
-::: {.column width="45%" font="150%" .fragment}
-```{r}
-#| code-line-numbers: false
-x <- 1:10
-f <- future({ slow_sum(x) })
-b <- value(f)
-```
-:::
+::::: { }
+<span class="right-large">➔</span>
+![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+<span class="code-large">y1 &leftarrow; 55</span>
+:::::
 
 ::::
 
 
-## Future ... why? (bc enables parallel processing)
+:::: { style="display: flex; transform: scale(0.5); transform-origin: top left; margin-bottom: -8ex; width: 200%;" .fragment }
 
-:::: {.columns}
+::::: { }
+![](images/chatgpt_20251116-box-2-open-code-data_11-20.png){ width="250" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+:::::
 
-::: {.column width="42%" font="135%" .fragment}
-Two calculations:
-```{r}
-#| code-line-numbers: "1-2|1-3|1-4|"
-x_a <- 1:10
-x_b <- 11:20
-a <- slow_sum(x_a) # 1 min
-b <- slow_sum(x_b) # 1 min
-c <- a + b
-```
+::::: { style="text-align: center; font-size: 150%;" }
+![](images/gemini_20251116-r-box-square.png){ width="150" style="vertical-align: middle" }<br>
+**1 minute**
+:::::
 
-::: {.fragment}
-Total time: 2 mins
-:::
-
-:::
-
-
-
-::: {.column width="58%" font="125%" .fragment}
-Two futures:
-```{r}
-#| code-line-numbers: "1-2|1-3|1-4|1-6|1-7|"
-x_a <- 1:10
-x_b <- 11:20
-f_a <- future( slow_sum(x_a) ) # 0 sec
-f_b <- future( slow_sum(x_b) ) # 0 sec
-
-a <- value(f_a)                # 1 min
-b <- value(f_b)              
-c <- a + b
-```
-
-::: {.fragment}
-Total time: 1 min
-:::
-
-:::
+::::: { }
+<span class="right-large">➔</span>
+![](images/chatgpt_20251116-box-2-open-result_155.png){ width="250" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+<span class="code-large">y2 &leftarrow; 155</span>
+:::::
 
 ::::
+
+
+:::: { style="display: flex; transform: scale(0.5); transform-origin: top left; margin-bottom: -8ex; width: 200%;" .fragment }
+
+::::: { }
+![](images/chatgpt_20251116-box-2-open-code-data_21-30.png){ width="250" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+:::::
+
+::::: { style="text-align: center; font-size: 150%;" }
+![](images/gemini_20251116-r-box-square.png){ width="150" style="vertical-align: middle" }<br>
+**1 minute**
+:::::
+
+::::: { }
+<span class="right-large">➔</span>
+![](images/chatgpt_20251116-box-2-open-result_255.png){ width="250" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+<span class="code-large">y3 &leftarrow; 255</span>
+:::::
+
+::::
+
+:::
+
+
+
+## Future ... what?
+
+::: { .code-normal  }
+```{.r}
+f1 <- future( slow_sum( 1:10) )   # 0 seconds
+f2 <- future( slow_sum(11:20) )   # 0 seconds
+f3 <- future( slow_sum(21:30) )   # 0 seconds
+
+y1 <- value(f1)                   # 1 minute
+y2 <- value(f2)                   # at the same time
+y3 <- value(f3)                   # at the same time
+```
+:::
 
 . . .
 
-<br>
 
-### => futures are the core building block for parallel processing
+::: { style="display: flex; transform: scale(0.5); transform-origin: top left; margin-bottom: -8ex; width: 200%;" }
+
+::::: { style="display: flex; border: solid; 3px; padding: 2ex;" }
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/chatgpt_20251116-box-2-open-code-data_1-10.png){ width="250" style="vertical-align: middle" }<br>
+**future #1**
+::::
+:::: { style="text-align: center; font-size: 150%; margin-left: 2ex;" }
+![](images/chatgpt_20251116-box-2-open-code-data_11-20.png){ width="250" style="vertical-align: middle" }<br>
+**future #2**
+::::
+:::: { style="text-align: center; font-size: 150%; margin-left: 2ex;" }
+![](images/chatgpt_20251116-box-2-open-code-data_21-30.png){ width="250" style="vertical-align: middle" }<br>
+**future #3**
+::::
+:::::
+
+:::: { }
+<br><br><br>
+<span class="right-large">➔</span>
+::::
+
+:::: { style="text-align: center;" }
+![](images/gemini_20251116-r-box-square.png){ width="120" style="vertical-align: middle" }<br>
+![](images/gemini_20251116-r-box-square.png){ width="120" style="vertical-align: middle" }<br>
+![](images/gemini_20251116-r-box-square.png){ width="120" style="vertical-align: middle" }<br>
+**1 minute<br>total**
+::::
+
+::::: { .fragment style="display: flex;" }
+
+:::: { }
+<br><br><br>
+<span class="right-large">➔</span>
+::::
+
+::::: { style="display: flex; border: solid; 3px; padding: 2ex;" }
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" style="vertical-align: middle" }<br>
+**value #1**
+::::
+:::: { style="text-align: center; font-size: 150%; margin-left: 2ex;" }
+![](images/chatgpt_20251116-box-2-open-result_155.png){ width="250" style="vertical-align: middle" }<br>
+**value #2**
+::::
+:::: { style="text-align: center; font-size: 150%; margin-left: 2ex;" }
+![](images/chatgpt_20251116-box-2-open-result_255.png){ width="250" style="vertical-align: middle" }<br>
+**value #3**
+::::
+
+:::::
+
+:::: { }
+<br><br><br>
+<span class="right-large">➔</span>
+::::
+
+:::: { .code-large style="padding: 1ex;" }
+y1 &leftarrow; 55<br>
+y2 &leftarrow; 155<br>
+y3 &leftarrow; 255
+::::
+
+:::::
+
+:::
 
 
-## Futureverse allows you to stick with your favorite coding style
+
+## Futures are the core building block for parallel processing
+
+The \{future\} package provides:
+
+<table style="border: none; text-align: center; margin-top: 4ex;">
+<tr style="border: 0; text-align: center;">
+<td style="border: 0; text-align: center;">
+![](images/chatgpt_20251116-box-2-open-code-data_1-10.png){ width="250" }
+</td>
+<td style="border: 0; text-align: center;">
+![](images/chatgpt_20251116-box-closed-question-mark.png){ width="180" }
+</td>
+<td style="border: 0; text-align: center;">
+![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" }
+</td>
+</tr>
+<tr style="border: 0; text-align: center;">
+<td style="border: 0; text-align: center; font-size: 150%;">`future()`</td>
+<td style="border: 0; text-align: center; font-size: 150%;">`resolved()`</td>
+<td style="border: 0; text-align: center; font-size: 150%;">`value()`</td>
+</tr>
+</table>
+
+
+## Futures allows you to stick with your favorite coding style
 
 Parallel alternatives to traditional, sequential functions:
 
@@ -188,68 +445,13 @@ plan(future.batchtools::batchtools_slurm)
 ```
 
 
-
 ## {data-background-color=#D0F0FF}
 
-<center style="font-size: 400%; padding-top: 3.5ex;">
-Let's go back in time ...
+<center style="font-size: 400%; padding-top: 1.5ex;">
+Peer-to-Peer Computing<br>
 </center>
-
-
-## Ten-Year Anniversary (future 0.6.0 released June 2015)
-
-<center>
-![](images/future-logo-balloons.png){fig-alt="Hexagon-shaped sign with the word 'FUTURE' in bold orange letters and the URL futureverse.org below, surrounded by a background of blue balloons." width="40%"}
-
-<small>
-_future logo: **Dan LaBar**_, 
-_ggplot2 logo balloon wall: **Greg Swinehart** & **Hadley Wickham**_
-</small>
-</center>
-
-
-## useR! 2016 at Stanford, CA, USA
-
-<center>
-<img src="images/useR2016-slide-01.png" style="width: 60%; border: 2px solid black; padding: 10px; box-shadow: 5px 10px gray;" alt="Screenshot of presentation slide titled 'A Future for R' by Henrik Bengtsson, UC San Francisco, with a retro illustration of a futuristic flying car on a highway. Caption at the bottom reads 'useR 2016, Stanford, CA, 2016-06-28'.">
-</center>
-
-## useR! 2016 at Stanford, CA, USA
-
-<center>
-<img src="images/useR2016-slide-05.png" style="width: 60%; border: 2px solid black; padding: 10px; box-shadow: 5px 10px gray;" alt="Screenshot of presentation slide titled 'R package: future' listing features: simple unified API, works on all platforms, easy to install, lightweight (~300 kB incl. dependencies), vignettes, and extendable by anyone. Badges at the bottom show CRAN 1.0.0, build passing, and Codecov 97%. Slide number 5 of 18.">
-</center>
-
-
-
-## useR! 2016 at Stanford, CA, USA
-
-<center>
-<img src="images/useR2016-slide-07.png" style="width: 60%; border: 2px solid black; padding: 10px; box-shadow: 5px 10px gray;" alt="Screenshot of presentation slide titled 'Consistent futures everywhere' listing Unix, macOS, and Windows. Shows R code using the future package to set plan(multiprocess) highlighted and run a Mandelbrot demo. Output indicates completion of several regions. On the right, an R graphics window displays a colorful Mandelbrot fractal.">
-</center>
-
-
-
-## useR! 2016 at Stanford, CA, USA
-
-<center>
-<img src="images/useR2016-slide-12.png" style="width: 60%; border: 2px solid black; padding: 10px; box-shadow: 5px 10px gray;" alt="Screenshot of presentation slide titled 'future.BatchJobs: Futures for HPC' showing a table mapping future.BatchJobs backends to job schedulers, such as batchjobs_slurm for Slurm and batchjobs_sge for Sun Grid Engine. Includes R code loading future.BatchJobs, setting plan(batchjobs_slurm) highlighted, and running DNA sequence alignment in parallel. Badges show CRAN 0.12.1, build passing, and Codecov 90%. Slide number 12 of 18.">
-</center>
-
-
-
-## useR! 2016 at Stanford, CA, USA
-
-<center>
-<img src="images/useR2016-slide-27.png" style="width: 60%; border: 2px solid black; padding: 10px; box-shadow: 5px 10px gray;" alt="Presentation slide titled 'A7. Futures I'd like to see' listing three ideas: plan(r32) for 32-bit R support, plan(p2p) for private and/or community-based peer-to-peer computer clusters, and plan(rhelp) to post R scripts to R-help for results. The text 'plan(p2p)' and its description are highlighted in orange.">
-</center>
-
-
-
-## {data-background-color=#D0F0FF}
-
-<center style="font-size: 400%; padding-top: 3.5ex;">
-Back to the present
+<center style="font-size: 200%; padding-top: 1.5ex;">
+ \- share compute among friends
 </center>
 
 
@@ -260,23 +462,17 @@ Back to the present
 ::: {.column width="70%" font="150%"}
 ```{r}
 #| code-line-numbers: false
-library(future.apply)
+library(future)
 
 plan(future.p2p::cluster, cluster = "alice/friends")
 
-y <- future_lapply(xs, slow_sum)
+y <- xs |> furrr::future_map(slow_sum)
 ```
+
 :::
 
 ![](images/world-p2p-network-three-users.png){fig-alt="Illustration of three people working on laptops, positioned below a large globe with location markers connected by lines, representing global online collaboration." .absolute top=280 right=-10 width="550"}
 
-
-
-## {data-background-color=#D0F0FF}
-
-<center style="font-size: 400%; padding-top: 2.5ex;">
-How to get started ...
-</center>
 
 
 ## A P2P cluster has two components
@@ -487,12 +683,11 @@ Some technical mitigations:
  * End-to-end encryption
 
  * Run workers in sandboxed environments, e.g.
- 
-   - in a Linux container, or
-   - in a virtual machine
-   
-   See [**parallelly**](https://parallelly.futureverse.org/articles/parallelly-25-sandbox-workers.html) package for some examples
 
+   - in a virtual machine
+   - in a Linux container
+   - in webR
+   
 ### => I encourage work on these topics - it's challenging, but important
 
 

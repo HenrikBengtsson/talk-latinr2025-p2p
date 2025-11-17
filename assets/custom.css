@@ -89,3 +89,39 @@
 .reveal .slides section .fragment.blur.visible {
     filter: blur(5px);
 }
+
+.code-normal {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 100%;
+  padding: 0.3ex;
+  vertical-align: middle;
+}
+
+.code-medium {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 200%;
+  padding: 0.3ex;
+  vertical-align: middle;
+}
+
+.reveal .code-large {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 250%;
+  padding: 0.3ex;
+  border: solid 4px;
+  border-color: #999;
+  background-color: #eee;
+  color: #06287E;
+  vertical-align: middle;
+}
+
+.reveal .right-large {
+  font-size: 250%;
+  margin: 0.5ex;
+  vertical-align: middle;
+  color: #666;
+  vertical-align: middle;
+}
