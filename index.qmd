@@ -65,7 +65,7 @@ R Foundation, R Consortium<br>
 
 <br/>
 
-#### LatinR 2025 (2025-12-01/2025-12-05)
+#### LatinR 2025 (2025W49)
 
 
 ## Future ... what?
@@ -318,7 +318,7 @@ y3 <- value(f3)                   # at the same time
 
 ::: { style="display: flex; transform: scale(0.5); transform-origin: top left; margin-bottom: -8ex; width: 200%;" }
 
-::::: { style="display: flex; border: solid; 3px; padding: 2ex;" }
+::::: { style="display: flex; border: solid; 3px; border-radius: 1ex; padding: 2ex;" }
 :::: { style="text-align: center; font-size: 150%;" }
 ![](images/chatgpt_20251116-box-2-open-code-data_1-10.png){ width="250" style="vertical-align: middle" }<br>
 **future #1**
@@ -352,7 +352,7 @@ y3 <- value(f3)                   # at the same time
 <span class="right-large">➔</span>
 ::::
 
-::::: { style="display: flex; border: solid; 3px; padding: 2ex;" }
+::::: { style="display: flex; border: solid; 3px; border-radius: 1ex; padding: 2ex;" }
 :::: { style="text-align: center; font-size: 150%;" }
 ![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" style="vertical-align: middle" }<br>
 **value #1**
@@ -434,15 +434,41 @@ ys <- xs |> future_map(slow_sum)              # {furrr}
 
 <br>
 
+* `lapply()`, `map()`, ... package things up in boxes and send them
+  one at the time to R
+
+* `future_lapply()`, `future_map()`, ... send the boxes to different
+  parallel R workers 🚀
+
+
+
+
+## Future boxes can be sent anywhere you want
+
+You can parallelize "boxes" on your current computer, e.g. one of
 
 ```{r}
-#| code-line-numbers: "1|2|3|4|5"
 plan(multisession)
 plan(future.callr::callr)
 plan(future.mirai::mirai_multisession)
+```
+
+. . .
+
+<br>
+
+You can distribute "boxes" to other computers, e.g. one of
+
+```{r}
 plan(cluster, workers = c("n1", "desktop", "server.myuniv.org"))
 plan(future.batchtools::batchtools_slurm)
 ```
+
+. . .
+
+<br>
+
+... and now you can send them to your friends too!
 
 
 ## {data-background-color=#D0F0FF}
@@ -466,7 +492,7 @@ library(future)
 
 plan(future.p2p::cluster, cluster = "alice/friends")
 
-y <- xs |> furrr::future_map(slow_sum)
+ys <- xs |> furrr::future_map(slow_sum)
 ```
 
 :::
@@ -510,7 +536,7 @@ Used to send futures to workers and receive results
 ::::
 
 
-## To join a P2P cluster you need an account
+## Get started: To join a P2P cluster you need an account
 
 All P2P cluster users need a [pico.sh](https://pico.sh) account to
 access the message board:
@@ -538,6 +564,41 @@ access the message board:
 That's it!
 
 
+## Get started: Try with personal P2P cluster
+
+To test that everything works, create a personal P2P cluster that only
+you have access to:
+
+```{r}
+#| code-line-numbers: false
+library(future)
+plan(future.p2p::cluster)
+f <- future({ 1+2 })
+v <- value(f)
+print(v)
+```
+
+. . .
+
+Nothing will be processed until you have added at least one P2P
+worker. Open another R session and call:
+
+```r
+future.p2p::worker()
+```
+
+. . .
+
+Momentarily, you should get the results:
+
+```r
+print(v)
+#> [1] 3
+```
+
+
+
+
 ## Alice hosts a P2P cluster
 
 Alice sets up P2P cluster and gives 'bob' and 'carol' access:
@@ -557,7 +618,7 @@ Q. What happens if Bob tries to use the P2P cluster?
 ```{r}
 #| code-line-numbers: false
 [bob]> plan(future.p2p::cluster, cluster = "alice/friends")
-[bob]> y <- xs |> future_map(slow_sum)
+[bob]> ys <- xs |> future_map(slow_sum)
 ```
 
 . . .
@@ -591,7 +652,7 @@ Q. What happens if Bob tries to use the P2P cluster?
 ```{r}
 #| code-line-numbers: false
 [bob]> plan(future.p2p::cluster, cluster = "alice/friends")
-[bob]> y <- xs |> future_map(slow_sum)
+[bob]> ys <- xs |> future_map(slow_sum)
 ```
 
 <br>
@@ -665,17 +726,13 @@ f <- future(system("erase-harddrive"))
 
 . . .
 
-Some technical mitigations:
-
- * End-to-end encryption
-
- * Run workers in sandboxed environments, e.g.
+Risks can be mitigated by "sandboxing" workers, e.g.
 
    - in a virtual machine
    - in a Linux container
-   - in webR
+   - in webR (WebAssembly)
    
-### => I encourage work on these topics - it's challenging, but important
+### => I encourage you to work on these important topics
 
 
 
@@ -687,41 +744,15 @@ The Future is bright<br>
 </center>
 
 
-## Stay tuned for exciting Futureverse improvements
 
-:::: {.fragments}
-
-### On the horizon {.fragment}
-
-::: {.incremental}
-
- * Resource specifications, e.g.
-   - avoid memory overuse, e.g. `memory=2*GiB`
-   - distribute to proper machines, e.g. `memory=2*GiB` and `gpu`
- 
-:::
-
-
-### In the near future {.fragment}
-
-::: {.incremental}
-
- * If you think **furrr** and **future.apply** are neat - just wait!
-
-:::
-
-::::
-
-. . .
-
-
-## Thank you and may the future be with you!
+## May the future be with you!
 
 * It’s easy to get started - just try it
 * Support: <https://github.com/HenrikBengtsson/future/discussions>
 * Tutorials: <https://www.futureverse.org/tutorials.html>
 * Blog posts: <https://www.futureverse.org/blog.html>
-* More features on the roadmap
 * I love feedback, ideas, and bug reports 💜
+* Lots of exiting improvements are coming your way!
+
 
 ![](images/futurize-v1.png){fig-alt="Hexagon-shaped logo with a light blue border, dark blue starry background, and the word 'FUTURIZE' in bold orange gradient letters beneath an upward-pointing arrow symbol." .absolute bottom=70 right=50 width="600"}
