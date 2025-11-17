@@ -737,15 +737,6 @@ Risks can be mitigated by "sandboxing" workers, e.g.
 
 
 
-## {data-background-color=#D0F0FF}
-
-<center style="font-size: 400%; padding-top: 2.5ex;">
-The Future is bright<br>
-... and fabulous
-</center>
-
-
-
 ## May the future be with you!
 
 * It’s easy to get started - just try it
