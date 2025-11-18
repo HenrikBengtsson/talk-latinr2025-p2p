@@ -430,7 +430,7 @@ y3 &leftarrow; 255
 
 ## Futures are the core building blocks<br>for parallel processing
 
-The \{future\} package provides:
+The **\{future\}** package provides:
 
 <table style="border: none; text-align: center; margin-top: 4ex;">
 <tr style="border: 0; text-align: center;">
@@ -452,37 +452,93 @@ The \{future\} package provides:
 </table>
 
 
-## Stay with your favorite coding style
 
-Parallel alternatives to traditional, sequential functions:
+## Stay with your favorite coding style while parallelizing
+
+<br>
 
 ```{r}
-#| code-line-numbers: "1|"
 ys <- lapply(xs, slow_sum)             # base R
-ys <- future_lapply(xs, slow_sum)      # {future.apply}
+ys <- xs |> map(slow_sum)              # {purrr}
 ```
-<span style="height:10px"/>
+<span style="height:1.5ex"/>
+
+are functions packaging things up in boxes and sending them to R;
+
+:::: { style="display: flex; transform: scale(0.18); transform-origin: top left; margin-bottom: -27ex;" }
+![](images/chatgpt_20251116-box-2-open-code-data_1-10.png){ width="250" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+![](images/gemini_20251116-r-box-square.png){ width="150" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" style="vertical-align: middle" }
 <br>
+<span style="font-size: 200%; font-weight: bold; margin-left: 11ex;">⋮</span>
+<br>
+![](images/chatgpt_20251116-box-2-open-code-data_21-30.png){ width="250" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+![](images/gemini_20251116-r-box-square.png){ width="150" style="vertical-align: middle" }
+<span class="right-large">➔</span>
+![](images/chatgpt_20251116-box-2-open-result_255.png){ width="250" style="vertical-align: middle" }
+::::
 
 . . .
 
+Fast, **futurized counterparts** that send the boxes to parallel R workers;
 
 ```{r}
-#| code-line-numbers: "1|"
-ys <- xs |> map(slow_sum)              # {purrr}
+ys <- future_lapply(xs, slow_sum)      # {future.apply}
 ys <- xs |> future_map(slow_sum)       # {furrr}
 ```
 
-. . .
+::: { style="display: flex; transform: scale(0.24); transform-origin: top left; margin-top: 2ex; margin-bottom: -8ex; width: 200%;" }
 
+::::: { style="display: flex;" }
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/chatgpt_20251116-box-2-open-code-data_1-10.png){ width="250" }
+::::
+:::: { style="text-align: center; font-size: 150%; margin-left: 2ex; margin-top: 2ex;" }
+...
+::::
+:::: { style="text-align: center; font-size: 150%; margin-left: 2ex;" }
+![](images/chatgpt_20251116-box-2-open-code-data_21-30.png){ width="250" }
+::::
+:::::
+
+:::: { }
 <br>
+<span class="right-large">➔</span>
+::::
 
-* `lapply()`, `map()`, ... package things up in boxes and send them
-  one at the time to R
+:::: { style="text-align: center; margin-top: -3.0ex;" }
+![](images/gemini_20251116-r-box-square.png){ width="120" style="vertical-align: middle" }<br>
+<span style="font-size: 200%; font-weight: bold;">⋮</span><br>
+![](images/gemini_20251116-r-box-square.png){ width="120" style="vertical-align: middle" }<br>
+**parallel**
+::::
 
-* `future_lapply()`, `future_map()`, ... send the boxes to different
-  parallel R workers 🚀
+:::: { }
+<br>
+<span class="right-large">➔</span>
+::::
 
+::::: { style="display: flex;"  }
+:::: { style="text-align: center; font-size: 150%;" }
+![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" }
+::::
+:::: { style="text-align: center; font-size: 150%; margin-left: 2ex; margin-top: 2ex;" }
+...
+::::
+:::: { style="text-align: center; font-size: 150%; margin-left: 2ex;" }
+![](images/chatgpt_20251116-box-2-open-result_255.png){ width="250" }
+::::
+
+:::: { style="font-size: 450%; margin-left: 5ex;" }
+<!-- 🚀 -->
+::::
+
+:::::
+
+:::
 
 
 
