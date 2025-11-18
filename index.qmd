@@ -527,7 +527,7 @@ Peer-to-Peer Computing<br>
 
 ## A P2P cluster has two components
 
-:::: {.fragment}
+:::: { }
 
 ::: {.column width="65%" font="100%"}
 <span style="font-size: 180%">Message Board</span>
@@ -543,7 +543,7 @@ Used to announce futures and offers to do work
 
 ::::
 
-:::: {.fragment}
+:::: { }
 
 ::: {.column width="65%" font="100%"}
 <span style="font-size: 180%">P2P file-transfer protocol</span>
@@ -672,11 +672,12 @@ f <- future(system("erase-harddrive"))
 
 . . .
 
+<br>
+
 Risks can be mitigated by "sandboxing" workers, e.g.
 
-   - in a virtual machine
-   - in a Linux container
-   - in webR (WebAssembly)
+   - in a virtual machine (more secure)
+   - in a Linux container (less secure)
    
 ### => I encourage you to work on these important topics
 
