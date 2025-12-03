@@ -32,7 +32,7 @@ execute:
 latinr:
   talk-number: 56
   video-title: Peer-to-Peer Parallelization in R (Henrik Bengtsson)
-  video-mp4: 56_future_p2p.mp4
+  video-mp4: 56_future_p2p_video.mp4
 ---
 <!--
 Title: future.p2p: Peer-to-Peer Compute Clusters in R
