@@ -1,5 +1,5 @@
 project:
-  title: "Futureverse P2P: Peer-to-Peer Parallelization in R"
+  title: "future.p2p: Peer-to-Peer Compute Clusters in R"
   
 format:
   revealjs:
