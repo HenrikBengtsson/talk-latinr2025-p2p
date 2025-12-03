@@ -8,7 +8,7 @@ heading-meta.html: heading-meta.R
 	Rscript "$<" > "$@"
 
 publish:
-	quarto publish
+	quarto publish gh-pages
 
 preview:
 	quarto preview --port 4001 &
