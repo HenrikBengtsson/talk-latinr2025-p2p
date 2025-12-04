@@ -184,7 +184,7 @@ y <- slow_sum(1:10)
 :::::
 ::::: { .fragment style="display: flex;" }
 
-:::: { }
+:::: { style="width: 30ex" }
 <span class="right-large">➔</span>
 <span class="code-large">y &leftarrow; 55</span>
 ::::
@@ -244,7 +244,7 @@ y <- value(f)
 ![](images/chatgpt_20251116-box-2-open-result_55.png){ width="250" style="vertical-align: middle" }<br>
 **value**
 ::::
-:::: { }
+:::: { style="width: 30ex" }
 <span class="right-large">➔</span>
 <span class="code-large">y &leftarrow; 55</span>
 ::::
